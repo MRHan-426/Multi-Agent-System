@@ -1,0 +1,19 @@
+<launch> 
+ 
+    <node pkg="formation" type="tf_broadcast.py" name="robot_1_tf_broadcaster" output="log">
+        <param name="robotname" value="ares1" />
+    </node>
+
+    <node pkg="formation" type="tf_broadcast.py" name="robot_2_tf_broadcaster" output="log">
+        <param name="robotname" value="ares2" />
+    </node>
+
+    <node pkg="formation" type="tf_broadcast.py" name="robot_3_tf_broadcaster" output="log">
+        <param name="robotname" value="ares3" />
+    </node>
+
+    <node pkg="formation" type="robot2.py" name="robot_2_tf_listener" output="screen"/>
+    <node pkg="formation" type="robot3.py" name="robot_3_tf_listener" output="screen"/>
+
+
+</launch>
