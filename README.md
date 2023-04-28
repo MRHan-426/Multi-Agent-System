@@ -52,7 +52,7 @@ roslaunch diff_drive demo.launch
 ```
 
 <p align="center">
-  <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/track.gif" alt="gif" >
+  <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/track.gif" alt="gif" width="55%" height="auto">
 </p>
 
 
@@ -68,7 +68,7 @@ roslaunch formation triangle.launch
 Robot1 serves as the leader in the formation, sending its laser data to the leader node. The leader combines the laser data to generate motion and obstacle avoidance commands, which are then sent to the robot's base for control. The follower nodes receive not only their own laser data and position information but also the position information of the leader. They then calculate the control commands for the followers based on the differences in position (distance and yaw angle) between the leader and followers. By using a control algorithm, the followers gradually approach the desired position, thus achieving the formation control effect. </p>
 
 <p align="center">
-  <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/formation.gif" alt="gif" width="60%" height="auto">
+  <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/formation.gif" alt="gif" width="63%" height="auto">
 </p>
 
 ## **5.multi-agent encirclement**
