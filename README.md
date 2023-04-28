@@ -64,8 +64,8 @@ In this part, I used the leader-follower method for the formation control of thr
 roslaunch formation playground_gazebo.launch
 roslaunch formation triangle.launch
 ```
-
-Robot1 serves as the leader in the formation, sending its laser data to the leader node. The leader combines the laser data to generate motion and obstacle avoidance commands, which are then sent to the robot's base for control. The follower nodes receive not only their own laser data and position information but also the position information of the leader. They then calculate the control commands for the followers based on the differences in position (distance and yaw angle) between the leader and followers. By using a control algorithm, the followers gradually approach the desired position, thus achieving the formation control effect. 
+<p align="justify">
+Robot1 serves as the leader in the formation, sending its laser data to the leader node. The leader combines the laser data to generate motion and obstacle avoidance commands, which are then sent to the robot's base for control. The follower nodes receive not only their own laser data and position information but also the position information of the leader. They then calculate the control commands for the followers based on the differences in position (distance and yaw angle) between the leader and followers. By using a control algorithm, the followers gradually approach the desired position, thus achieving the formation control effect. </p>
 
 
 ## **5.multi-agent encirclement**
