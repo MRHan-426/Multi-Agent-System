@@ -44,8 +44,11 @@ execute TwoLinkArm_DynamicsModel.m
 </p>
 
 ## **3.stabilization and tracking control of a differential mobile robot**
-<p style="text-align:justify;">
+<p align="justify">
 In this part, I used a target-to-target PID controller to control the differential wheeled robot. In terms of specific implementation, I projected the reference trajectory onto the x-axis, y-axis, and orientation angle, obtaining three sets of position and orientation functions with respect to time. I then designed three PID controllers to track the aforementioned three trajectories, ultimately fusing them into the robot's linear and angular velocities, and further calculating the left and right wheel speeds.</p>
+
+
+
 
 
 ```
