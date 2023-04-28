@@ -1,21 +1,19 @@
 #!/usr/bin/env python
-#coding=utf-8
+# coding=utf-8
 
 import rospy
-
 import math
 import tf
 import geometry_msgs.msg
 from tf.transformations import euler_from_quaternion
 
-
-if __name__ == '__main__':
-    rospy.init_node('tf_listener',anonymous=True)
-
-    listener = tf.TransformListener() #TransformListener创建后就开始接受tf广播信息，最多可以缓存10s
+if name == 'main':
+    rospy.init_node('tf_listener', anonymous=True)
+    # TransformListener starts receiving tf broadcast information as soon as it is created and can cache it up to 10 seconds.
+    listener = tf.TransformListener()
 
     '''
-    #设置robot2的初始坐标
+    # Set the initial coordinates of robot2
     robot2_start = rospy.Publisher('robot2/odom', nav_msgs/Odometry, queue_size=1)
     msg.pose.pose.position.x = 0
     msg.pose.pose.position.y = 0
@@ -24,42 +22,48 @@ if __name__ == '__main__':
     msg.pose.pose.orientation.y = 0
     msg.pose.pose.orientation.z = 0
     msg.pose.pose.orientation.w = 0
-    robot2_start.publish(msg) #将请求的参数传入  robot2的初始位置
+    robot2_start.publish(msg) # Pass the requested parameters to the initial position of robot2
     '''
 
-    #Publisher 函数第一个参数是话题名称，第二个参数 数据类型，现在就是我们定义的msg 最后一个是缓冲区的大小
-    turtle_vel = rospy.Publisher('/ares2/cmd_vel', geometry_msgs.msg.Twist, queue_size=1)
+    # The first argument of the Publisher function is the topic name, the second argument is the data type, and the last one is the buffer size.
+    turtle_vel = rospy.Publisher(
+        '/ares2/cmd_vel', geometry_msgs.msg.Twist, queue_size=1)
 
-    rate = rospy.Rate(10.0) #循环执行，更新频率是10hz
+    rate = rospy.Rate(10.0)  # Loop execution with an update frequency of 10 Hz
     while not rospy.is_shutdown():
         try:
-            #得到以robot2为坐标原点的robot1的姿态信息(平移和旋转)
-            (trans, rot) = listener.lookupTransform('/ares2', '/ares1', rospy.Time()) #查看相对的tf,返回平移和旋转  turtle2跟着turtle1变换
+            # Get the posture information (translation and rotation) of robot1 relative to robot2, with robot2 as the coordinate origin
+            # Lookup the relative tf and return the translation and rotation. turtle2 follows turtle1 transformation.
+            (trans, rot) = listener.lookupTransform(
+                '/ares2', '/ares1', rospy.Time())
         except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
             continue
-        err_msg = "Robot2 trans: "+ str(trans[0]) + "Robot2 rot: " + str(trans[1])
+        err_msg = "Robot2 trans: " + \
+            str(trans[0]) + "Robot2 rot: " + str(trans[1])
         rospy.loginfo(err_msg)
 
+        # Translation transformation, calculating the linear velocity to reach robot1
+        linear = math.sqrt((trans[0] - 0.866) ** 2 + (trans[1] + 0.5) ** 2)
+        # TODO angular Calculate ERROR!
+        # Angular transformation, calculating the angular velocity to reach robot1. atan2(double y, double x) returns the azimuth angle from the origin to point (x,y), that is, the angle between the x axis.
+        angular = math.atan2((trans[1] + 0.5), (trans[0] - 0.866))
 
-        linear = math.sqrt((trans[0] -  0.866) ** 2 + (trans[1] + 0.5) ** 2) #平移变换 计算出前往robot1的线速度
-        # TODO angular Calculate ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        angular = math.atan2((trans[1] + 0.5), (trans[0] - 0.866)) #角度变换 计算出前往robot1的角速度 atan2(double y,double x) 返回的是原点至点(x,y)的方位角，即与 x 轴的夹角
-        
-        info_msg = "Robot2 angular: "+ str(angular) + "Robot2 linear: " + str(linear)
+        info_msg = "Robot2 angular: " + \
+            str(angular) + "Robot2 linear: " + str(linear)
         rospy.loginfo(info_msg)
 
         msg = geometry_msgs.msg.Twist()
-        #msg.linear.x = linear   #平移变换
-        #msg.angular.z = angular #角度变换
-        
-        if linear > 0.035: #如果robot1不动，但是数值有轻微漂移 就不让robot2动
-            msg.linear.x = linear    #平移变换
-            msg.angular.z = angular  #角度变换
+        # msg.linear.x = linear   # Translation transformation
+        # msg.angular.z = angular # Angular transformation
+
+        if linear > 0.035:  # If robot1 does not move, but the numerical value has a slight drift, robot2 will not be allowed to move.
+            msg.linear.x = linear    # Translation transformation
+            msg.angular.z = angular  # Angular transformation
         else:
 
             msg.linear.x = 0
             msg.angular.z = 0
-        
-        turtle_vel.publish(msg) #向/robot2/cmd_vel话题发布新坐标  (即robot2根据/robot2/cmd_vel的数据来控制robot2移动)
-        rate.sleep() #以固定频率执行
-        
+
+        # Publish new coordinates to the /robot2/cmd_vel topic (that is, robot2 moves according to the data from /robot2/cmd_vel)
+        turtle_vel.publish(msg)
+        rate.sleep()  # Executes at a fixed frequency.

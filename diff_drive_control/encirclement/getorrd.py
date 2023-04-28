@@ -13,7 +13,7 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Twist
 from tf.transformations import euler_from_quaternion
 
-from pyzbar import pyzbar 
+from pyzbar import pyzbar
 
 
 class Sense:
@@ -41,8 +41,10 @@ class Sense:
         self.ka = 0.5
         self.kb = -0.15
 
-        self.odom_sub = rospy.Subscriber("/odom", Odometry, self.odom_cb, queue_size=1)
-        self.vel_pub = rospy.Publisher("/mobile_base/commands/velocity", Twist, queue_size=1)
+        self.odom_sub = rospy.Subscriber(
+            "/odom", Odometry, self.odom_cb, queue_size=1)
+        self.vel_pub = rospy.Publisher(
+            "/mobile_base/commands/velocity", Twist, queue_size=1)
 
         rospy.Timer(rospy.Duration(0.1), self.timer_cb)
         pass
@@ -101,12 +103,12 @@ class Sense:
         try:
             frame = self.rgb_image
 
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             barcodes = pyzbar.decode(gray)
             (x, y, w, h) = barcodes[0].rect
-            u, v = x+w/2,y+h/2
-            
-            print("u,v:",u, v)
+            u, v = x+w/2, y+h/2
+
+            print("u,v:", u, v)
 
             if u != 0 or v != 0:
                 print("aaa")
@@ -114,14 +116,15 @@ class Sense:
                 x, y, _ = self.getCoordinateInWorld(u, v, d)
 
                 self.x_d, self.y_d = x, y
-                print("target = ({}, {}), current = ({}, {}).".format(self.x_d, self.y_d, self.x, self.y))
+                print("target = ({}, {}), current = ({}, {}).".format(
+                    self.x_d, self.y_d, self.x, self.y))
 
                 velocity, oumiga = self.lpj_stabilize()
 
                 vel = Twist()
                 vel.linear.x = velocity
                 vel.angular.z = oumiga
-                print("linear_v,angle_w:",velocity,oumiga)
+                print("linear_v,angle_w:", velocity, oumiga)
                 self.vel_pub.publish(vel)
         except:
             pass
@@ -139,8 +142,6 @@ class Sense:
         z_w = z
 
         return x_w, y_w, z_w
-    
-
 
 
 def main(args):

@@ -1,12 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % @file : IKrob.m
 % @function : [theta] = IKrob(coord,l)
-% brief : 二轴机械臂逆运动学求解函数
-% data  : 2021.11.1 
+% brief : Two-axis robotic arm inverse kinematics solver function
+% date : 2021.11.1
 % version : 1.0
-% input : coord ------------- 笛卡尔空间坐标
-%         l     ------------- 连杆长度
-% output: theta ------------- 机械臂关节角
+% input : coord ------------- Cartesian space coordinates
+% l ------------- Link lengths
+% output: theta ------------- Robotic arm joint angles
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [theta] = IKrob(coord,l)
@@ -15,7 +15,7 @@ y=coord(2);
 L_1=l(1);
 % L_2=l(2);
 
-theta2 = -2*acos(sqrt(x^2+y^2)/(2*L_1)); %正负问题
+theta2 = -2acos(sqrt(x^2+y^2)/(2L_1)); %Positive or negative issue
 theta1 = atan(y/x)-theta2/2;
 
 theta = [theta1 theta2];
