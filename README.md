@@ -47,13 +47,13 @@ execute TwoLinkArm_DynamicsModel.m
 <p align="justify">
 In this part, I used a target-to-target PID controller to control the differential wheeled robot. In terms of specific implementation, I projected the reference trajectory onto the x-axis, y-axis, and orientation angle, obtaining three sets of position and orientation functions with respect to time. I then designed three PID controllers to track the aforementioned three trajectories, ultimately fusing them into the robot's linear and angular velocities, and further calculating the left and right wheel speeds.</p>
 
-
-
-
-
 ```
 roslaunch diff_drive demo.launch
 ```
+
+<p align="center">
+  <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/track.gif" alt="gif" >
+</p>
 
 
 ## **4.multi-agent formation**
@@ -67,6 +67,9 @@ roslaunch formation triangle.launch
 <p align="justify">
 Robot1 serves as the leader in the formation, sending its laser data to the leader node. The leader combines the laser data to generate motion and obstacle avoidance commands, which are then sent to the robot's base for control. The follower nodes receive not only their own laser data and position information but also the position information of the leader. They then calculate the control commands for the followers based on the differences in position (distance and yaw angle) between the leader and followers. By using a control algorithm, the followers gradually approach the desired position, thus achieving the formation control effect. </p>
 
+<p align="center">
+  <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/formation.gif" alt="gif" width="60%" height="auto">
+</p>
 
 ## **5.multi-agent encirclement**
 <p align="justify">
