@@ -20,10 +20,11 @@ The course employs [Qbot2e](https://github.com/MRHan-426/Multi-Agent-System/blob
 
 
 ## **1.inverse kinematics simulation of a robotic arm**
-Given a trajectory (the handwritten letter "a") in Jacobian space, the joint space trajectory can be obtained by solving the inverse kinematics of the robotic arm.
-For each point on the trajectory, the inverse kinematics is solved to obtain the joint angles, and then the end-effector coordinates are obtained based on the geometric relationships.
+Given a trajectory (the handwritten letter "a") in Jacobian space, the joint space trajectory can be obtained by 
 
+solving the inverse kinematics of the robotic arm.For each point on the trajectory, the inverse kinematics is solved 
 
+to obtain the joint angles, and then the end-effector coordinates are obtained based on the geometric relationships.
 
 <p align="center">
     <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/robot_arm.png" alt="image" width="30%" height="auto">
@@ -33,6 +34,17 @@ For each point on the trajectory, the inverse kinematics is solved to obtain the
 
 
 ## **2.dynamic model control of a robotic arm**
+The Lagrangian method is an approach used to derive the dynamics equations of robotic manipulators, which can be subsequently 
+
+utilized for motion control and trajectory tracking. Given a trajectory (the handwritten letter "a") in Jacobian space:
+
+<p align="center">
+    <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/dynamic0.png" alt="image" width="20%" height="auto">
+    <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/dynamic1.png" alt="image" width="20%" height="auto">
+    <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/dynamic2.png" alt="image" width="20%" height="auto">
+    <img src="https://github.com/MRHan-426/Multi-Agent-System/blob/main/.assets/dynamic3.png" alt="image" width="20%" height="auto">
+</p>
+
 ## **3.stabilization and tracking control of a differential mobile robot**
 ## **4.multi-agent formation**
 ## **5.multi-agent encirclement**
